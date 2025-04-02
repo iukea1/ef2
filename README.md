@@ -30,7 +30,7 @@ Get converted into a table with one row per XML node. In other words, the file i
 
 
 | XPATH                                             | NODE_TYPE | VARIABLE_NAME               | TABLE_NAME        | VALUE             |
-| ------------------------------------------------- | --------- | --------------------------- | ----------------- | ----------------- |
+|:------------------------------------------------- |:--------- |:--------------------------- |:----------------- |:----------------- |
 | BooksInCareOfDetail                               | parent    |                             |                   |                   |
 | BooksInCareOfDetail/PersonNm                      | terminal  | F9_P0_IN_CARE_OF_NAME       | F9-P00-T00-HEADER | Manuel Floss      |
 | BooksInCareOfDetail/USAddress/AddressLine1Txt     | terminal  | F9_P0_IN_CARE_OF_ADDR_L1    | F9-P00-T00-HEADER | 319 Lingenbury Ct |
