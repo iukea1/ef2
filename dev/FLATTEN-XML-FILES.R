@@ -25,22 +25,22 @@ get_object_id2 <- function (url) {
     return(object.id)
 }
 
-get_table_id <- function( xpaths )
-{
-  get_n <- function(x)
-  {
-    start <- regexpr( "\\[", x )
-    stop  <- regexpr( "\\]", x )
-    n <- substr( x, start+1, stop-1 )
+get_table_id <- function( xpaths ){
+
+  get_n <- function(x) {
+    matches <- stringr::str_extract_all( x, "\\[.{1,4}\\]" ) 
+    tn <- sapply( matches, tail, 1 )
+    n <- gsub( "\\[|\\]", "", tn )
     return(n)
   }
 
-  table.n <- sapply( xpaths, get_n, USE.NAMES=F )
-  table.n <- ifelse( table.n=="", 0, table.n )
+  table.n <- get_n( xpaths )
+  table.n <- ifelse( table.n=="character(0)", 0, table.n )
   table.n <- sprintf( "%05.0f", as.numeric(table.n) )
   table.n <- paste0( "TID-", table.n )
   return( table.n )
 }
+
 
 get_header <- function( xpath, type ){
 
