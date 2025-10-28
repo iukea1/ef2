@@ -4,7 +4,99 @@ Updated R package for processing IRS 990 Efile datasets.
 
 This package is a Gen 2 version of the [irs990efile](https://github.com/Nonprofit-Open-Data-Collective/irs990efile) package with an improved XML to RDB workflow that is more robust and reduces processing time to about 15 minutes per tax year (the original package takes about 3 days to process one tax year). 
 
-Pre-processed files are available on the NCCS website in CSV format: https://nccs.urban.org/nccs/datasets/efile/
+Processed files are available on the NCCS website in CSV format: https://nccs.urban.org/nccs/datasets/efile/
+
+## Installation
+
+```r
+# ef2 currently depends on these packages only available on github
+devtools::install_github( 'ultinomics/xmltools' )
+devtools::install_github( 'nonprofit-open-data-collective/irs990efile' )
+devtools::install_github( 'nonprofit-open-data-collective/ef2' )
+```
+
+## Usage
+
+The efficiency gains from the package partly come from the pre-processing files. All XML files are converted into something similar to parquet (long) formats with one row per xpath within a document. These are stored in a Duck Database file. 
+
+The desired tables are then extracted from the database using: 
+
+```r
+wd <- # project working directory
+years <- 2020:2022
+table_names <- c("F9-P08-T00-REVENUE","F9-P09-T00-EXPENSES","F9-P10-T00-BALANCE-SHEET")
+extract_csv_tables( wd=wd, years=years, table_names=table_names )
+```
+
+The processed DuckDB databases are available at:  `https://nccs-efile.s3.dualstack.us-east-1.amazonaws.com/duckdb/efile_v2_1/` + EFILE{YEAR}.duckdb
+
+You can attach S3 versions of DuckDB databases using virtual memory in order to execute processes without downloading the files to your local machine.
+
+```r
+version <- "efile_v2_1"
+con <- get_s3_database( filename="EFILE2021.duckdb", version=version )
+```
+
+You can then run queries to inspect raw data or extract tables directly from S3.
+
+```r
+index <- get_current_index_full()
+i2 <- dplyr::filter( index, FormType %in% c("990","990EZ") )
+table( i2$TaxYear, i2$FormType ) |> knitr::kable()
+```
+
+|     |    990|  990EZ|
+|:----|------:|------:|
+|2007 |     17|     17|
+|2008 |     87|    114|
+|2009 |  33311|  15470|
+|2010 | 123025|  63326|
+|2011 | 159504|  82048|
+|2012 | 179688|  93750|
+|2013 | 198855| 104375|
+|2014 | 218619| 116417|
+|2015 | 233519| 124894|
+|2016 | 243903| 130484|
+|2017 | 261612| 139145|
+|2018 | 271442| 149384|
+|2019 | 284515| 152689|
+|2020 | 343790| 171891|
+|2021 | 336521| 202730|
+|2022 | 348034| 205532|
+|2023 | 329042| 198731|
+|2024 |  78817|  80682|
+
+
+```r
+# SPLIT INTO YEARS TO KEEP SIZE MANAGEABLE
+dir.create("index")
+for( i in 2009:2024 ){
+  index_i <- dplyr::filter( i2, TaxYear == i )
+  saveRDS( index_i, paste0("index/index",i,".rds") )
+}
+```
+
+To build a new database: 
+
+```r
+YEAR <- "2020"
+index_y <- readRDS( paste0( "index/index", YEAR, ".rds" ) )
+build_database( year=YEAR, urls = index_y$URL )
+```
+
+You can update an existing database by differencing the XML files currently indexed in the database (using XPATH URL as the unique keys) and 
+
+```r
+update_db( year=YEAR, index = index_y )
+```
+
+It will only create database tables for the XML documents that are missing from the current database by checking for missing cases: 
+
+```r
+missing_urls <- find_missing_urls( year=YEAR, index = index_y )
+```
+
+Thus it is a more efficient way to maintain a database by updating the current version rather than building from scratch. 
 
 
 ## Process
