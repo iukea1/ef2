@@ -22,6 +22,9 @@ The efficiency gains from the package partly come from the pre-processing files.
 The desired tables are then extracted from the database using: 
 
 ```r
+library( irs990efile )
+library( ef2 )
+
 wd <- # project working directory
 years <- 2020:2022
 table_names <- c("F9-P08-T00-REVENUE","F9-P09-T00-EXPENSES","F9-P10-T00-BALANCE-SHEET")
