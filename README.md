@@ -17,7 +17,9 @@ devtools::install_github( 'nonprofit-open-data-collective/ef2' )
 
 ## Usage
 
-The efficiency gains from the package partly come from the pre-processing files. All XML files are converted into something similar to parquet (long) formats with one row per xpath within a document. These are stored in a Duck Database file. 
+The efficiency gains from the package partly come from the pre-processing files. All XML files are converted into something similar to parquet (long) formats with one row per xpath within a document. These are stored in a Duck Database file.
+
+### Extract Specific Tables (R)
 
 The desired tables are then extracted from the database using: 
 
@@ -30,6 +32,27 @@ years <- 2020:2022
 table_names <- c("F9-P08-T00-REVENUE","F9-P09-T00-EXPENSES","F9-P10-T00-BALANCE-SHEET")
 extract_csv_tables( wd=wd, years=years, table_names=table_names )
 ```
+
+### Extract ALL Tables (Python/R)
+
+**NEW**: Extract all 128+ IRS 990 tables automatically with snake_case formatting:
+
+```bash
+# Python version (recommended for memory efficiency)
+python3 extract_all_tables.py
+
+# R version
+Rscript extract_all_tables.R
+```
+
+Features:
+- Extracts all available tables from concordance (128+ tables)
+- Snake_case filenames and column names (`f9_p08_t00_revenue_2021.csv`)
+- Memory optimized - processes one table at a time to prevent RAM exhaustion
+- Outputs to CSV and SQLite database
+- See `EXTRACT_ALL_TABLES.md` for complete documentation
+
+### S3 Database Access
 
 The processed DuckDB databases are available at:  `https://nccs-efile.s3.dualstack.us-east-1.amazonaws.com/duckdb/efile_v2_1/` + EFILE{YEAR}.duckdb
 
