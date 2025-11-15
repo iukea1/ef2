@@ -1,0 +1,436 @@
+{
+  "timestamp": "2025-11-15T23:26:34.500843",
+  "summary": {
+    "total_checks": 157,
+    "passed": 156,
+    "failed": 1,
+    "error_count": 0,
+    "warning_count": 1
+  },
+  "rules": [
+    {
+      "category": "Format",
+      "rule": "f9_p00_t00_header: EIN format",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Format",
+      "rule": "f9_p08_t00_revenue: EIN format",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p01_t00_summary_ez: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p02_t00_signature: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p03_t00_mission: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p00_t00_header: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p08_t00_revenue: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p09_t00_expenses: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p10_t00_balance_sheet: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p07_t01_compensation: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p01_t00_summary: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p01_t00_summary_ez: objectid not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p01_t00_summary_ez: ein not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p01_t00_summary_ez: tax_year not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p02_t00_signature: objectid not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p02_t00_signature: ein not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p02_t00_signature: tax_year not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p03_t00_mission: objectid not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p03_t00_mission: ein not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p03_t00_mission: tax_year not null",
+      "severity": "ERROR",
+      "passed": 2,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p00_t00_header: objectid not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p00_t00_header: ein not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p00_t00_header: tax_year not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p08_t00_revenue: objectid not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p08_t00_revenue: ein not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p08_t00_revenue: tax_year not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p09_t00_expenses: objectid not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p09_t00_expenses: ein not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p09_t00_expenses: tax_year not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p10_t00_balance_sheet: objectid not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p10_t00_balance_sheet: ein not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p10_t00_balance_sheet: tax_year not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p07_t01_compensation: objectid not null",
+      "severity": "ERROR",
+      "passed": 8,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p07_t01_compensation: ein not null",
+      "severity": "ERROR",
+      "passed": 8,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p07_t01_compensation: tax_year not null",
+      "severity": "ERROR",
+      "passed": 8,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p01_t00_summary: objectid not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p01_t00_summary: ein not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p01_t00_summary: tax_year not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "Revenue: Non-negative values",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "Revenue: Components sum to total",
+      "severity": "WARNING",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Consistency",
+      "rule": "Summary revenue matches detail revenue",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Consistency",
+      "rule": "Tax year matches across joins",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Data Quality",
+      "rule": "f9_p08_t00_revenue: f9_p8_total_revenue outliers",
+      "severity": "WARNING",
+      "passed": 0,
+      "failed": 1,
+      "pass_rate": "0.0%",
+      "details": [
+        "Insufficient data for outlier detection"
+      ]
+    },
+    {
+      "category": "Temporal",
+      "rule": "Organizations file consecutively",
+      "severity": "WARNING",
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": "0.0%",
+      "details": []
+    }
+  ],
+  "categories": {
+    "Format": {
+      "passed": 10,
+      "failed": 0
+    },
+    "Business Logic": {
+      "passed": 19,
+      "failed": 0
+    },
+    "Completeness": {
+      "passed": 117,
+      "failed": 0
+    },
+    "Consistency": {
+      "passed": 10,
+      "failed": 0
+    },
+    "Data Quality": {
+      "passed": 0,
+      "failed": 1
+    },
+    "Temporal": {
+      "passed": 0,
+      "failed": 0
+    }
+  }
+}

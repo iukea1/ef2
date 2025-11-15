@@ -52,6 +52,42 @@ Features:
 - Outputs to CSV and SQLite database
 - See `EXTRACT_ALL_TABLES.md` for complete documentation
 
+### Multi-Year Analysis
+
+**NEW**: Extract and analyze data across multiple tax years:
+
+```bash
+# Extract multiple years
+python3 extract_multi_year.py --years 2019 2020 2021
+
+# Or use demo mode
+python3 extract_multi_year.py --demo
+```
+
+Features:
+- Multi-year data extraction in one command
+- Automatic data combination across years
+- Longitudinal analysis views (revenue trends, YoY growth)
+- Coverage analysis by year
+- See `ADVANCED_FEATURES.md` for complete guide
+
+### Data Validation
+
+**NEW**: Comprehensive data quality validation:
+
+```bash
+# Validate extracted data
+python3 validate_data.py
+```
+
+Features:
+- 6 validation categories (format, completeness, business logic, etc.)
+- Outlier detection using statistical methods
+- Cross-table consistency checks
+- Temporal pattern validation
+- Detailed JSON report generation
+- See `ADVANCED_FEATURES.md` for complete guide
+
 ### S3 Database Access
 
 The processed DuckDB databases are available at:  `https://nccs-efile.s3.dualstack.us-east-1.amazonaws.com/duckdb/efile_v2_1/` + EFILE{YEAR}.duckdb
