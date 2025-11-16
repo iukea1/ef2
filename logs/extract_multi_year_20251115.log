@@ -1,0 +1,150 @@
+2025-11-15 16:23:43 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:23:44 - extract_multi_year - INFO - get_table_list:52 - Loaded 128 tables from concordance
+2025-11-15 16:23:44 - extract_multi_year - INFO - extract_year_data:95 - ================================================================================
+2025-11-15 16:23:44 - extract_multi_year - INFO - extract_year_data:96 - Processing Year: 2021
+2025-11-15 16:23:44 - extract_multi_year - INFO - extract_year_data:97 - ================================================================================
+2025-11-15 16:23:44 - extract_multi_year - INFO - setup_duckdb_s3:73 - httpfs extension loaded successfully
+2025-11-15 16:23:44 - extract_multi_year - INFO - setup_duckdb_s3:88 - DuckDB S3 setup complete
+2025-11-15 16:28:46 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:28:46 - extract_multi_year - INFO - get_table_list:54 - Loaded 128 tables from concordance
+2025-11-15 16:28:46 - extract_multi_year - INFO - extract_year_data:97 - ================================================================================
+2025-11-15 16:28:46 - extract_multi_year - INFO - extract_year_data:98 - Processing Year: 2021
+2025-11-15 16:28:46 - extract_multi_year - INFO - extract_year_data:99 - ================================================================================
+2025-11-15 16:28:46 - extract_multi_year - INFO - setup_duckdb_s3:75 - httpfs extension loaded successfully
+2025-11-15 16:28:46 - extract_multi_year - INFO - setup_duckdb_s3:90 - DuckDB S3 setup complete
+2025-11-15 16:38:39 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:39:16 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:39:16 - extract_multi_year - INFO - get_table_list:54 - Loaded 128 tables from concordance
+2025-11-15 16:39:16 - extract_multi_year - INFO - extract_year_data:97 - ================================================================================
+2025-11-15 16:39:16 - extract_multi_year - INFO - extract_year_data:98 - Processing Year: 2020
+2025-11-15 16:39:16 - extract_multi_year - INFO - extract_year_data:99 - ================================================================================
+2025-11-15 16:39:16 - extract_multi_year - INFO - setup_duckdb_s3:75 - httpfs extension loaded successfully
+2025-11-15 16:39:16 - extract_multi_year - INFO - setup_duckdb_s3:90 - DuckDB S3 setup complete
+2025-11-15 16:49:54 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:49:55 - extract_multi_year - INFO - get_table_list:152 - Loaded 128 tables from concordance
+2025-11-15 16:49:55 - extract_multi_year - INFO - main:591 - Limited to 5 tables due to --max-tables
+2025-11-15 16:49:55 - extract_multi_year - INFO - extract_year_data:195 - ================================================================================
+2025-11-15 16:49:55 - extract_multi_year - INFO - extract_year_data:196 - Processing Year: 2020
+2025-11-15 16:49:55 - extract_multi_year - INFO - extract_year_data:197 - ================================================================================
+2025-11-15 16:49:55 - extract_multi_year - INFO - setup_duckdb_s3:173 - httpfs extension loaded successfully
+2025-11-15 16:49:55 - extract_multi_year - INFO - setup_duckdb_s3:188 - DuckDB S3 setup complete
+2025-11-15 16:51:45 - extract_multi_year - INFO - extract_year_data:97 - ================================================================================
+2025-11-15 16:51:45 - extract_multi_year - INFO - extract_year_data:98 - Processing Year: 2021
+2025-11-15 16:51:45 - extract_multi_year - INFO - extract_year_data:99 - ================================================================================
+2025-11-15 16:51:45 - extract_multi_year - INFO - setup_duckdb_s3:75 - httpfs extension loaded successfully
+2025-11-15 16:51:45 - extract_multi_year - INFO - setup_duckdb_s3:90 - DuckDB S3 setup complete
+2025-11-15 16:53:19 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:53:20 - extract_multi_year - INFO - get_table_list:152 - Loaded 128 tables from concordance
+2025-11-15 16:53:20 - extract_multi_year - INFO - main:644 - Limited to 5 tables due to --max-tables
+2025-11-15 16:53:20 - extract_multi_year - INFO - extract_year_data:205 - ================================================================================
+2025-11-15 16:53:20 - extract_multi_year - INFO - extract_year_data:206 - Processing Year: 2020
+2025-11-15 16:53:20 - extract_multi_year - INFO - extract_year_data:207 - ================================================================================
+2025-11-15 16:53:20 - extract_multi_year - INFO - setup_duckdb_s3:173 - httpfs extension loaded successfully
+2025-11-15 16:53:20 - extract_multi_year - INFO - setup_duckdb_s3:188 - DuckDB S3 setup complete
+2025-11-15 16:53:23 - extract_multi_year - INFO - extract_year_data:239 - Attached S3 database (will create cache): EFILE2020
+2025-11-15 16:53:23 - extract_multi_year - INFO - download_database_to_cache:88 - Downloading database to cache: duckdb_cache/EFILE2020.duckdb
+2025-11-15 16:53:23 - extract_multi_year - INFO - download_database_to_cache:89 -   This is a one-time operation per year - subsequent runs will be much faster!
+2025-11-15 16:53:23 - extract_multi_year - INFO - download_database_to_cache:99 -   Creating local cache database...
+2025-11-15 16:53:23 - extract_multi_year - INFO - download_database_to_cache:106 -   Copying FLATXML table from S3 (this may take several minutes)...
+2025-11-15 16:53:23 - extract_multi_year - ERROR - download_database_to_cache:122 - Failed to create cache: Catalog Error: Table with name FLATXML does not exist!
+
+LINE 3:         SELECT * FROM EFILE2020.FLATXML;
+                              ^
+2025-11-15 16:53:23 - extract_multi_year - ERROR - extract_year_data:249 - Failed to create cache, falling back to S3: Catalog Error: Table with name FLATXML does not exist!
+
+LINE 3:         SELECT * FROM EFILE2020.FLAT
+2025-11-15 16:53:55 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:53:55 - extract_multi_year - INFO - get_table_list:152 - Loaded 128 tables from concordance
+2025-11-15 16:53:55 - extract_multi_year - INFO - main:644 - Limited to 5 tables due to --max-tables
+2025-11-15 16:53:55 - extract_multi_year - INFO - extract_year_data:205 - ================================================================================
+2025-11-15 16:53:55 - extract_multi_year - INFO - extract_year_data:206 - Processing Year: 2020
+2025-11-15 16:53:55 - extract_multi_year - INFO - extract_year_data:207 - ================================================================================
+2025-11-15 16:53:55 - extract_multi_year - INFO - setup_duckdb_s3:173 - httpfs extension loaded successfully
+2025-11-15 16:53:55 - extract_multi_year - INFO - setup_duckdb_s3:188 - DuckDB S3 setup complete
+2025-11-15 16:54:02 - extract_multi_year - INFO - extract_year_data:239 - Attached S3 database (will create cache): EFILE2020
+2025-11-15 16:54:02 - extract_multi_year - INFO - download_database_to_cache:88 - Downloading database to cache: duckdb_cache/EFILE2020.duckdb
+2025-11-15 16:54:02 - extract_multi_year - INFO - download_database_to_cache:89 -   This is a one-time operation per year - subsequent runs will be much faster!
+2025-11-15 16:54:02 - extract_multi_year - INFO - download_database_to_cache:99 -   Creating local cache database...
+2025-11-15 16:54:02 - extract_multi_year - INFO - download_database_to_cache:106 -   Copying FLATXML table from S3 (this may take several minutes)...
+2025-11-15 16:54:02 - extract_multi_year - ERROR - download_database_to_cache:122 - Failed to create cache: Catalog Error: Table with name FLATXML does not exist!
+
+LINE 3:         SELECT * FROM EFILE2020.FLATXML;
+                              ^
+2025-11-15 16:54:02 - extract_multi_year - ERROR - extract_year_data:249 - Failed to create cache, falling back to S3: Catalog Error: Table with name FLATXML does not exist!
+
+LINE 3:         SELECT * FROM EFILE2020.FLAT
+2025-11-15 16:54:53 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:54:53 - extract_multi_year - INFO - get_table_list:152 - Loaded 128 tables from concordance
+2025-11-15 16:54:53 - extract_multi_year - INFO - main:644 - Limited to 5 tables due to --max-tables
+2025-11-15 16:54:53 - extract_multi_year - INFO - extract_year_data:205 - ================================================================================
+2025-11-15 16:54:53 - extract_multi_year - INFO - extract_year_data:206 - Processing Year: 2020
+2025-11-15 16:54:53 - extract_multi_year - INFO - extract_year_data:207 - ================================================================================
+2025-11-15 16:54:53 - extract_multi_year - INFO - setup_duckdb_s3:173 - httpfs extension loaded successfully
+2025-11-15 16:54:53 - extract_multi_year - INFO - setup_duckdb_s3:188 - DuckDB S3 setup complete
+2025-11-15 16:55:00 - extract_multi_year - INFO - extract_year_data:239 - Attached S3 database (will create cache): EFILE2020
+2025-11-15 16:55:00 - extract_multi_year - INFO - download_database_to_cache:88 - Downloading database to cache: duckdb_cache/EFILE2020.duckdb
+2025-11-15 16:55:00 - extract_multi_year - INFO - download_database_to_cache:89 -   This is a one-time operation per year - subsequent runs will be much faster!
+2025-11-15 16:55:00 - extract_multi_year - INFO - download_database_to_cache:99 -   Creating local cache database...
+2025-11-15 16:55:00 - extract_multi_year - INFO - download_database_to_cache:106 -   Copying FLATXML table from S3 (this may take several minutes)...
+2025-11-15 16:55:00 - extract_multi_year - ERROR - download_database_to_cache:122 - Failed to create cache: Catalog Error: Table with name FLATXML does not exist!
+
+LINE 3:         SELECT * FROM EFILE2020.FLATXML;
+                              ^
+2025-11-15 16:55:00 - extract_multi_year - ERROR - extract_year_data:249 - Failed to create cache, falling back to S3: Catalog Error: Table with name FLATXML does not exist!
+
+LINE 3:         SELECT * FROM EFILE2020.FLAT
+2025-11-15 16:56:09 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:57:41 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 16:57:41 - extract_multi_year - INFO - get_table_list:166 - Loaded 128 tables from concordance
+2025-11-15 16:57:41 - extract_multi_year - INFO - main:671 - Limited to 10 tables due to --max-tables
+2025-11-15 16:57:41 - extract_multi_year - INFO - extract_year_data:219 - ================================================================================
+2025-11-15 16:57:41 - extract_multi_year - INFO - extract_year_data:220 - Processing Year: 2020
+2025-11-15 16:57:41 - extract_multi_year - INFO - extract_year_data:221 - ================================================================================
+2025-11-15 16:57:41 - extract_multi_year - INFO - setup_duckdb_s3:187 - httpfs extension loaded successfully
+2025-11-15 16:57:41 - extract_multi_year - INFO - setup_duckdb_s3:202 - DuckDB S3 setup complete
+2025-11-15 16:57:41 - extract_multi_year - INFO - extract_year_data:252 - Cache doesn't exist yet, will create after attaching S3 database
+2025-11-15 16:57:51 - extract_multi_year - INFO - extract_year_data:291 - Creating cache from S3 database...
+2025-11-15 16:57:51 - extract_multi_year - INFO - download_database_to_cache:93 - Downloading database to cache: duckdb_cache/EFILE2020.duckdb
+2025-11-15 16:57:51 - extract_multi_year - INFO - download_database_to_cache:94 -   This is a one-time operation per year - subsequent runs will be much faster!
+2025-11-15 16:57:51 - extract_multi_year - INFO - download_database_to_cache:95 -   Note: This will download the entire FLATXML table (~500MB-2GB depending on year)
+2025-11-15 16:57:51 - extract_multi_year - INFO - download_database_to_cache:99 -   Copying FLATXML table from S3 (this may take 5-15 minutes)...
+2025-11-15 17:00:53 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 17:00:53 - extract_multi_year - INFO - get_table_list:166 - Loaded 128 tables from concordance
+2025-11-15 17:00:53 - extract_multi_year - INFO - main:671 - Limited to 3 tables due to --max-tables
+2025-11-15 17:00:53 - extract_multi_year - INFO - extract_year_data:219 - ================================================================================
+2025-11-15 17:00:53 - extract_multi_year - INFO - extract_year_data:220 - Processing Year: 2020
+2025-11-15 17:00:53 - extract_multi_year - INFO - extract_year_data:221 - ================================================================================
+2025-11-15 17:00:53 - extract_multi_year - INFO - setup_duckdb_s3:187 - httpfs extension loaded successfully
+2025-11-15 17:00:53 - extract_multi_year - INFO - setup_duckdb_s3:202 - DuckDB S3 setup complete
+2025-11-15 17:00:53 - extract_multi_year - INFO - extract_year_data:252 - Cache doesn't exist yet, will create after attaching S3 database
+2025-11-15 17:00:58 - extract_multi_year - INFO - extract_year_data:291 - Creating cache from S3 database...
+2025-11-15 17:00:58 - extract_multi_year - INFO - download_database_to_cache:93 - Downloading database to cache: duckdb_cache/EFILE2020.duckdb
+2025-11-15 17:00:58 - extract_multi_year - INFO - download_database_to_cache:94 -   This is a one-time operation per year - subsequent runs will be much faster!
+2025-11-15 17:00:58 - extract_multi_year - INFO - download_database_to_cache:95 -   Note: This will download the entire FLATXML table (~500MB-2GB depending on year)
+2025-11-15 17:00:58 - extract_multi_year - INFO - download_database_to_cache:99 -   Copying FLATXML table from S3 (this may take 5-15 minutes)...
+2025-11-15 17:06:51 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 17:07:03 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 17:08:30 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 17:08:31 - extract_multi_year - INFO - get_table_list:166 - Loaded 128 tables from concordance
+2025-11-15 17:08:31 - extract_multi_year - INFO - main:633 - Limited to 3 tables due to --max-tables
+2025-11-15 17:08:31 - extract_multi_year - INFO - extract_year_data:219 - ================================================================================
+2025-11-15 17:08:31 - extract_multi_year - INFO - extract_year_data:220 - Processing Year: 2020
+2025-11-15 17:08:31 - extract_multi_year - INFO - extract_year_data:221 - ================================================================================
+2025-11-15 17:08:31 - extract_multi_year - INFO - setup_duckdb_s3:187 - httpfs extension loaded successfully
+2025-11-15 17:08:31 - extract_multi_year - INFO - setup_duckdb_s3:202 - DuckDB S3 setup complete
+2025-11-15 17:10:28 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 17:10:28 - extract_multi_year - INFO - get_table_list:166 - Loaded 128 tables from concordance
+2025-11-15 17:10:28 - extract_multi_year - INFO - main:633 - Limited to 3 tables due to --max-tables
+2025-11-15 17:10:28 - extract_multi_year - INFO - extract_year_data:219 - ================================================================================
+2025-11-15 17:10:28 - extract_multi_year - INFO - extract_year_data:220 - Processing Year: 2020
+2025-11-15 17:10:28 - extract_multi_year - INFO - extract_year_data:221 - ================================================================================
+2025-11-15 17:10:28 - extract_multi_year - INFO - setup_duckdb_s3:187 - httpfs extension loaded successfully
+2025-11-15 17:10:28 - extract_multi_year - INFO - setup_duckdb_s3:202 - DuckDB S3 setup complete
+2025-11-15 17:14:22 - extract_multi_year - INFO - setup_logging:92 - Logger initialized: extract_multi_year (level=INFO)
+2025-11-15 17:14:22 - extract_multi_year - INFO - get_table_list:166 - Loaded 128 tables from concordance
+2025-11-15 17:14:22 - extract_multi_year - INFO - main:633 - Limited to 3 tables due to --max-tables
+2025-11-15 17:14:22 - extract_multi_year - INFO - extract_year_data:219 - ================================================================================
+2025-11-15 17:14:22 - extract_multi_year - INFO - extract_year_data:220 - Processing Year: 2020
+2025-11-15 17:14:22 - extract_multi_year - INFO - extract_year_data:221 - ================================================================================
+2025-11-15 17:14:22 - extract_multi_year - INFO - setup_duckdb_s3:187 - httpfs extension loaded successfully
+2025-11-15 17:14:22 - extract_multi_year - INFO - setup_duckdb_s3:202 - DuckDB S3 setup complete

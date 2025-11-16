@@ -71,7 +71,7 @@ Requirements:
 
 The IRS 990 data is stored in DuckDB databases on S3:
 
-- **Location**: `s3://nccs-efile/duckdb/EFILE{YEAR}.duckdb`
+- **Location**: `s3://nccs-efile/duckdb/efile_v2_1/EFILE{YEAR}.duckdb`
 - **Format**: Flattened XML structure (FLATXML table)
 - **Access**: Anonymous (public data)
 

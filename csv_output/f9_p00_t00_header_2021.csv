@@ -1,6 +1,0 @@
-objectid,ein,taxpayer_name,tax_year,form_type,organization_type,tax_period_begin,tax_period_end,url
-OID-202120139349301207,123456789,Community Health Services Inc,2021,990,Corporation,2021-01-01,2021-12-31,https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301207_public.xml
-OID-202120139349301208,987654321,Education Foundation,2021,990,Trust,2021-01-01,2021-12-31,https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301208_public.xml
-OID-202120139349301209,555555555,Arts Council,2021,990EZ,Corporation,2021-01-01,2021-12-31,https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301209_public.xml
-OID-202120139349301210,111222333,Environmental Defense Fund,2021,990,Corporation,2021-01-01,2021-12-31,https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301210_public.xml
-OID-202120139349301211,999888777,Youth Sports League,2021,990,Association,2021-01-01,2021-12-31,https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301211_public.xml

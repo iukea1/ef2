@@ -13,10 +13,13 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library(purrr)
+library(ggplot2)
+library(tidyverse)
+library(data.table)
 
-cat("=" %R% 80, "\n")
+cat(strrep("=", 80), "\n")
 cat("IRS 990 - Extract All Tables from S3 DuckDB to CSV and SQLite\n")
-cat("=" %R% 80, "\n\n")
+cat(strrep("=", 80), "\n\n")
 
 # Configuration
 YEAR <- 2021
@@ -28,17 +31,16 @@ dir.create(CSV_DIR, showWarnings = FALSE, recursive = TRUE)
 
 #' Convert text to snake_case
 to_snake_case <- function(text) {
-  text <- gsub("-", "_", text)
-  text <- gsub(" ", "_", text)
-  text <- gsub("([a-z])([A-Z])", "\\1_\\2", text)
+  text <- gsub('-', "_", text)
+  text <- gsub(' ', "_", text)
+  text <- gsub('([a-z])([A-Z])', '\\1_\\2', text)
   text <- tolower(text)
-  return(text)
+  text
 }
 
 #' Extract a single table to CSV with snake_case formatting
 #' Memory efficient - uses DuckDB COPY command
 extract_table_to_csv_snake <- function(table_name, year, con, cc_file, output_dir = CSV_DIR) {
-
   snake_table_name <- to_snake_case(table_name)
   csv_filename <- file.path(output_dir, paste0(snake_table_name, "_", year, ".csv"))
 
@@ -87,7 +89,7 @@ extract_table_to_csv_snake <- function(table_name, year, con, cc_file, output_di
     # Build COPY command with renamed columns
     col_mapping <- paste(sprintf("%s AS %s", col_names, snake_col_names), collapse = ", ")
     copy_sql <- sprintf(
-      "COPY (SELECT %s FROM TEMP_EXTRACT) TO '%s' WITH (HEADER, DELIMITER ',');",
+      "COPY (SELECT %s FROM TEMP_EXTRACT) TO '%s' (HEADER, DELIMITER ',');",
       col_mapping,
       csv_filename
     )
@@ -224,9 +226,9 @@ cat("\nStep 3: Loading concordance file...\n")
 cc_file <- get_concordance(gh = TRUE)
 
 # Process all tables
-cat("\n", rep("=", 80), "\n", sep = "")
+cat("\n", strrep("=", 80), "\n", sep = "")
 cat(sprintf("Processing %d tables...\n", length(all_tables)))
-cat(rep("=", 80), "\n", sep = "")
+cat(strrep("=", 80), "\n", sep = "")
 
 success_count <- 0
 skipped_count <- 0
@@ -261,16 +263,16 @@ for (i in seq_along(all_tables)) {
 DBI::dbDisconnect(con, shutdown = TRUE)
 
 # Summary
-cat("\n", rep("=", 80), "\n", sep = "")
+cat("\n", strrep("=", 80), "\n", sep = "")
 cat("EXTRACTION COMPLETE\n")
-cat(rep("=", 80), "\n", sep = "")
+cat(strrep("=", 80), "\n", sep = "")
 cat(sprintf("  ✓ Success: %d tables\n", success_count))
 cat(sprintf("  ⊘ Skipped: %d tables (no data)\n", skipped_count))
 cat(sprintf("  ✗ Errors:  %d tables\n", error_count))
 cat(sprintf("\nOutput:\n"))
 cat(sprintf("  CSV files: %s/\n", CSV_DIR))
 cat(sprintf("  SQLite DB: %s\n", SQLITE_DB))
-cat(rep("=", 80), "\n", sep = "")
+cat(strrep("=", 80), "\n", sep = "")
 
 # List SQLite tables
 cat("\nSQLite Tables:\n")

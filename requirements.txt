@@ -1,0 +1,32 @@
+# EF2 IRS 990 Data Extraction - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core dependencies
+duckdb>=0.9.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Optional but recommended for memory monitoring
+psutil>=5.9.0
+
+# Optional dependencies for advanced features
+# Uncomment if needed
+
+# Data validation and quality
+# great-expectations>=0.18.0
+
+# Visualization
+# matplotlib>=3.7.0
+# seaborn>=0.12.0
+# plotly>=5.14.0
+
+# Development dependencies
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
+# black>=23.0.0
+# ruff>=0.0.280
+# mypy>=1.4.0
+
+# Documentation
+# sphinx>=7.0.0
+# sphinx-rtd-theme>=1.2.0

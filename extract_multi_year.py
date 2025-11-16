@@ -11,6 +11,7 @@ import sqlite3
 import pandas as pd
 import os
 import re
+import gc
 from pathlib import Path
 from typing import List, Dict
 import argparse
@@ -20,18 +21,29 @@ from datetime import datetime
 import logging
 from logging_config import setup_logging, log_performance, LogBlock
 
+# Optional memory monitoring
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+
 # Setup logger
 logger = setup_logging("extract_multi_year", level="INFO")
 
 # Configuration
 S3_BUCKET = "nccs-efile"
+S3_VERSION = "efile_v2_1"  # Database version
+S3_BASE_PATH = f"s3://{S3_BUCKET}/duckdb/{S3_VERSION}"
 CSV_DIR = "csv_multi_year"
 SQLITE_DIR = "sqlite_multi_year"
 COMBINED_DB = "irs990_combined_years.sqlite"
+CACHE_DIR = "duckdb_cache"  # Local cache for downloaded databases
 
 # Create output directories
 Path(CSV_DIR).mkdir(exist_ok=True)
 Path(SQLITE_DIR).mkdir(exist_ok=True)
+Path(CACHE_DIR).mkdir(exist_ok=True)
 
 def to_snake_case(text: str) -> str:
     """Convert text to snake_case"""
@@ -39,6 +51,108 @@ def to_snake_case(text: str) -> str:
     text = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', text)
     text = re.sub('([a-z0-9])([A-Z])', r'\1_\2', text)
     return text.lower()
+
+def log_memory_usage():
+    """Log current memory usage if psutil is available"""
+    if PSUTIL_AVAILABLE:
+        process = psutil.Process()
+        mem_info = process.memory_info()
+        mem_mb = mem_info.rss / 1024 / 1024
+        mem_percent = process.memory_percent()
+        logger.debug(f"Memory usage: {mem_mb:.1f} MB ({mem_percent:.1f}%)")
+
+        # Warning if memory usage is high
+        if mem_percent > 80:
+            logger.warning(f"High memory usage: {mem_percent:.1f}% - Consider reducing batch size")
+
+        return mem_mb
+    return None
+
+def get_cached_db_path(year: int) -> Path:
+    """Get path to cached local database for a given year"""
+    return Path(CACHE_DIR) / f"EFILE{year}.duckdb"
+
+def download_database_to_cache(year: int, s3_con: duckdb.DuckDBPyConnection, flatxml_table: str) -> Path:
+    """
+    Download/cache DuckDB database locally for faster repeated queries
+    This dramatically speeds up extraction by eliminating S3 network latency
+
+    Args:
+        year: Tax year
+        s3_con: DuckDB connection with S3 database already attached
+        flatxml_table: Name of the FLATXML table in the attached database
+    """
+    cache_path = get_cached_db_path(year)
+
+    if cache_path.exists():
+        logger.info(f"Cache already exists: {cache_path}")
+        cache_size_mb = cache_path.stat().st_size / 1024 / 1024
+        logger.info(f"  Cache size: {cache_size_mb:.1f} MB")
+        return cache_path
+
+    logger.info(f"Downloading database to cache: {cache_path}")
+    logger.info("  This is a one-time operation per year - subsequent runs will be much faster!")
+    logger.info("  Note: This will download the entire FLATXML table (~500MB-2GB depending on year)")
+
+    try:
+        # Export the FLATXML table from S3 to a local DuckDB file
+        logger.info(f"  Copying FLATXML table from S3 (this may take 5-15 minutes)...")
+
+        # Use DuckDB's CREATE TABLE AS to copy data from S3 to local file
+        # This is done in a single operation for efficiency
+        export_query = f"""
+        COPY (SELECT * FROM {flatxml_table})
+        TO '{cache_path.parent / f"EFILE{year}_flatxml.parquet"}'
+        (FORMAT PARQUET);
+        """
+        s3_con.execute(export_query)
+
+        # Now create the local database and import the parquet file
+        logger.info("  Creating local cache database...")
+        local_con = duckdb.connect(str(cache_path))
+
+        import_query = f"""
+        CREATE TABLE FLATXML AS
+        SELECT * FROM '{cache_path.parent / f"EFILE{year}_flatxml.parquet"}';
+        """
+        local_con.execute(import_query)
+        local_con.close()
+
+        # Clean up temporary parquet file
+        parquet_file = cache_path.parent / f"EFILE{year}_flatxml.parquet"
+        if parquet_file.exists():
+            parquet_file.unlink()
+
+        cache_size_mb = cache_path.stat().st_size / 1024 / 1024
+        logger.info(f"  ✓ Cache created: {cache_size_mb:.1f} MB")
+        logger.info(f"  ✓ Future extractions for {year} will be much faster!")
+
+        return cache_path
+
+    except Exception as e:
+        logger.error(f"Failed to create cache: {str(e)[:200]}")
+        # Clean up partial files
+        if cache_path.exists():
+            cache_path.unlink()
+        parquet_file = cache_path.parent / f"EFILE{year}_flatxml.parquet"
+        if parquet_file.exists():
+            parquet_file.unlink()
+        raise
+
+def should_skip_table(year: int, table_name: str, skip_existing: bool) -> bool:
+    """Check if table CSV already exists and should be skipped"""
+    if not skip_existing:
+        return False
+
+    snake_name = to_snake_case(table_name)
+    year_dir = Path(CSV_DIR) / str(year)
+    csv_file = year_dir / f"{snake_name}.csv"
+
+    if csv_file.exists() and csv_file.stat().st_size > 0:
+        logger.debug(f"Skipping existing: {snake_name}")
+        return True
+
+    return False
 
 @log_performance
 def get_table_list() -> List[str]:
@@ -90,8 +204,18 @@ def setup_duckdb_s3():
     return con
 
 @log_performance
-def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> Dict:
-    """Extract data for a single year"""
+def extract_year_data(year: int, tables: List[str], sample_size: int = None,
+                      skip_existing: bool = False, batch_size: int = 10) -> Dict:
+    """
+    Extract data for a single year using direct S3 queries
+
+    Args:
+        year: Tax year to extract
+        tables: List of table names to extract
+        sample_size: Optional row limit per table
+        skip_existing: If True, skip tables that already have CSV files
+        batch_size: Force garbage collection after this many tables
+    """
     logger.info(f"{'='*80}")
     logger.info(f"Processing Year: {year}")
     logger.info(f"{'='*80}")
@@ -110,12 +234,13 @@ def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> 
         print(f"  ✗ Cannot setup DuckDB for year {year}")
         return results
 
-    # Attach S3 database
-    s3_path = f"s3://{S3_BUCKET}/duckdb/EFILE{year}.duckdb"
+    # Attach S3 database directly
+    db_path = f"{S3_BASE_PATH}/EFILE{year}.duckdb"
     dbname = f"EFILE{year}"
+    logger.debug(f"Connecting to S3 database: {db_path}")
 
     try:
-        con.execute(f"ATTACH '{s3_path}' AS {dbname};")
+        con.execute(f"ATTACH '{db_path}' AS {dbname};")
         print(f"  ✓ Attached S3 database: {dbname}")
     except Exception as e:
         print(f"  ✗ Could not attach database: {str(e)[:100]}")
@@ -128,6 +253,7 @@ def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> 
         try:
             con.execute(f"SELECT * FROM {name} LIMIT 1;")
             flatxml_table = name
+            logger.debug(f"Found FLATXML table: {name}")
             break
         except:
             continue
@@ -141,12 +267,22 @@ def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> 
     year_dir = Path(CSV_DIR) / str(year)
     year_dir.mkdir(exist_ok=True)
 
-    for table_name in tables:
+    tables_skipped = 0
+
+    for idx, table_name in enumerate(tables, 1):
         snake_name = to_snake_case(table_name)
         csv_file = year_dir / f"{snake_name}.csv"
 
+        # Skip if CSV already exists and skip_existing is True
+        if should_skip_table(year, table_name, skip_existing):
+            tables_skipped += 1
+            continue
+
+        # Progress indicator
+        print(f"\n  [{idx}/{len(tables)}] Processing: {table_name}")
+
         try:
-            # Build query with optional sampling
+            # Build query with optional sampling (LIMIT applied after PIVOT for efficiency)
             limit_clause = f"LIMIT {sample_size}" if sample_size else ""
 
             query = f"""
@@ -157,11 +293,11 @@ def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> 
                         FROM {flatxml_table}
                         WHERE RDB_TABLE = '{table_name}'
                         AND TYPE = 'terminal'
-                        {limit_clause}
                     )
                     ON VARIABLE_NAME
                     USING FIRST(VALUE)
                 )
+                {limit_clause}
             )
             TO '{csv_file}'
             WITH (HEADER, DELIMITER ',');
@@ -180,66 +316,92 @@ def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> 
 
         except Exception as e:
             results['tables_failed'] += 1
-            # print(f"    ✗ {snake_name}: {str(e)[:80]}")
+            print(f"    ✗ Error: {str(e)[:80]}")
+
+        # Aggressive memory cleanup every batch_size tables
+        if idx % batch_size == 0:
+            logger.info(f"  Batch checkpoint ({idx}/{len(tables)}) - forcing garbage collection")
+            gc.collect()
+            log_memory_usage()
+            print(f"  Progress: {idx}/{len(tables)} tables processed ({results['tables_extracted']} successful)")
 
     con.close()
+    gc.collect()  # Final cleanup for this year
 
     print(f"\n  Summary for {year}:")
     print(f"    Extracted: {results['tables_extracted']} tables")
     print(f"    Failed: {results['tables_failed']} tables")
+    if tables_skipped > 0:
+        print(f"    Skipped (already exist): {tables_skipped} tables")
     print(f"    Total rows: {results['total_rows']:,}")
 
     return results
 
 def combine_year_data(years: List[int], tables: List[str]):
-    """Combine data across years into single database"""
+    """Combine data across years into single database with memory-efficient chunked processing"""
     print(f"\n{'='*80}")
     print(f"COMBINING DATA ACROSS YEARS: {min(years)}-{max(years)}")
     print(f"{'='*80}")
 
     con = sqlite3.connect(COMBINED_DB)
+    CHUNK_SIZE = 50000  # Process 50k rows at a time
 
     for table_name in tables:
         snake_name = to_snake_case(table_name)
         print(f"\n  Combining: {snake_name}")
 
-        combined_data = []
         years_found = []
+        total_rows = 0
+        first_write = True
 
         for year in years:
             csv_file = Path(CSV_DIR) / str(year) / f"{snake_name}.csv"
 
             if csv_file.exists():
                 try:
-                    df = pd.read_csv(csv_file)
-                    # Convert column names to snake_case
-                    df.columns = [to_snake_case(col) for col in df.columns]
-                    # Add year column if not present
-                    if 'tax_year' not in df.columns:
-                        df['tax_year'] = year
-                    combined_data.append(df)
+                    # Process CSV in chunks to avoid loading entire file into memory
+                    for chunk in pd.read_csv(csv_file, chunksize=CHUNK_SIZE):
+                        # Convert column names to snake_case
+                        chunk.columns = [to_snake_case(col) for col in chunk.columns]
+
+                        # Add year column if not present
+                        if 'tax_year' not in chunk.columns:
+                            chunk['tax_year'] = year
+
+                        # Write chunk to database
+                        if first_write:
+                            chunk.to_sql(snake_name, con, if_exists='replace', index=False)
+                            first_write = False
+                        else:
+                            chunk.to_sql(snake_name, con, if_exists='append', index=False)
+
+                        total_rows += len(chunk)
+
+                        # Free memory
+                        del chunk
+                        gc.collect()
+
                     years_found.append(year)
+
                 except Exception as e:
                     print(f"    ✗ Error reading {year}: {str(e)[:50]}")
 
-        if combined_data:
-            # Combine all years
-            combined_df = pd.concat(combined_data, ignore_index=True)
-
-            # Write to database
-            combined_df.to_sql(snake_name, con, if_exists='replace', index=False)
-
-            # Create indexes
+        if years_found:
+            # Create indexes after all data is loaded
             try:
                 con.execute(f"CREATE INDEX IF NOT EXISTS idx_{snake_name}_objectid ON {snake_name}(objectid);")
                 con.execute(f"CREATE INDEX IF NOT EXISTS idx_{snake_name}_tax_year ON {snake_name}(tax_year);")
-                if 'ein' in combined_df.columns:
-                    con.execute(f"CREATE INDEX IF NOT EXISTS idx_{snake_name}_ein ON {snake_name}(ein);")
-            except:
-                pass
 
-            print(f"    ✓ Combined {len(combined_data)} years: {years_found}")
-            print(f"    ✓ Total rows: {len(combined_df):,}")
+                # Check if 'ein' column exists before creating index
+                cursor = con.execute(f"PRAGMA table_info({snake_name})")
+                columns = [row[1] for row in cursor.fetchall()]
+                if 'ein' in columns:
+                    con.execute(f"CREATE INDEX IF NOT EXISTS idx_{snake_name}_ein ON {snake_name}(ein);")
+            except Exception as e:
+                print(f"    ! Index creation warning: {str(e)[:50]}")
+
+            print(f"    ✓ Combined {len(years_found)} years: {years_found}")
+            print(f"    ✓ Total rows: {total_rows:,}")
         else:
             print(f"    ⊘ No data found for any year")
 
@@ -443,9 +605,12 @@ def main():
     parser = argparse.ArgumentParser(description='Multi-Year IRS 990 Data Extraction')
     parser.add_argument('--years', nargs='+', type=int, help='Years to extract (e.g., 2019 2020 2021)')
     parser.add_argument('--tables', nargs='+', help='Specific tables to extract (default: all)')
-    parser.add_argument('--sample', type=int, help='Sample size per table for testing')
+    parser.add_argument('--sample', type=int, help='Sample size per table for testing (applies after PIVOT)')
     parser.add_argument('--demo', action='store_true', help='Run demo mode with sample data')
     parser.add_argument('--combine-only', action='store_true', help='Only combine existing data')
+    parser.add_argument('--max-tables', type=int, help='Maximum number of tables to process (for testing/memory constraints)')
+    parser.add_argument('--skip-existing', action='store_true', help='Skip tables that already have CSV files (recommended for resuming work!)')
+    parser.add_argument('--batch-size', type=int, default=10, help='Number of tables to process before forcing garbage collection (default: 10)')
 
     args = parser.parse_args()
 
@@ -458,8 +623,14 @@ def main():
         tables = args.tables
     else:
         tables = get_table_list()
-        # Limit to core tables for demo
-        tables = [t for t in tables if '-T00-' in t][:10]
+        # Limit to core tables for demo (if no specific max-tables is set)
+        if not args.max_tables:
+            tables = [t for t in tables if '-T00-' in t][:10]
+
+    # Apply max-tables limit if specified
+    if args.max_tables:
+        tables = tables[:args.max_tables]
+        logger.info(f"Limited to {len(tables)} tables due to --max-tables")
 
     print(f"\n{'='*80}")
     print(f"MULTI-YEAR IRS 990 DATA EXTRACTION")
@@ -467,14 +638,21 @@ def main():
     print(f"Tables: {len(tables)}")
     print(f"Years: {args.years if args.years else 'Demo mode'}")
     if args.sample:
-        print(f"Sample size: {args.sample} rows per table")
+        print(f"Sample size: {args.sample} rows per table (applied after PIVOT)")
+    if args.max_tables:
+        print(f"Max tables: {args.max_tables} (memory-constrained mode)")
+    if args.skip_existing:
+        print(f"Skip existing: ENABLED (will skip tables with existing CSV files)")
+    print(f"Batch size: {args.batch_size} tables (memory cleanup frequency)")
     print(f"{'='*80}")
 
     if not args.combine_only:
         # Extract data for each year
         if args.years:
             for year in args.years:
-                extract_year_data(year, tables, args.sample)
+                extract_year_data(year, tables, args.sample,
+                                skip_existing=args.skip_existing,
+                                batch_size=args.batch_size)
         else:
             print("\nNo years specified. Use --years 2019 2020 2021 or --demo")
             return

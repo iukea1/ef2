@@ -15,7 +15,9 @@ print("=== EF2 S3 to SQLite Workflow ===\n")
 # Configuration
 YEAR = 2021
 S3_BUCKET = "nccs-efile"
-S3_PATH = f"s3://{S3_BUCKET}/duckdb/EFILE{YEAR}.duckdb"
+S3_VERSION = "efile_v2_1"  # Database version
+S3_BASE_PATH = f"s3://{S3_BUCKET}/duckdb/{S3_VERSION}"
+S3_PATH = f"{S3_BASE_PATH}/EFILE{YEAR}.duckdb"
 TABLE_NAME = "F9-P08-T00-REVENUE"
 CSV_DIR = "CSV"
 CSV_FILENAME = f"{CSV_DIR}/{TABLE_NAME}-{YEAR}.csv"

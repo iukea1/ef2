@@ -177,7 +177,7 @@ print("""
 When running in an environment with network access to S3, the workflow would:
 
 1. Connect to S3 DuckDB database:
-   - URL: s3://nccs-efile/duckdb/EFILE2021.duckdb
+   - URL: s3://nccs-efile/duckdb/efile_v2_1/EFILE2021.duckdb
    - Uses DuckDB httpfs extension for S3 access
    - Anonymous access to public IRS 990 data
 

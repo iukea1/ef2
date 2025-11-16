@@ -17,7 +17,9 @@ from typing import List, Optional
 # Configuration
 YEAR = 2021
 S3_BUCKET = "nccs-efile"
-S3_PATH = f"s3://{S3_BUCKET}/duckdb/EFILE{YEAR}.duckdb"
+S3_VERSION = "efile_v2_1"  # Database version
+S3_BASE_PATH = f"s3://{S3_BUCKET}/duckdb/{S3_VERSION}"
+S3_PATH = f"{S3_BASE_PATH}/EFILE{YEAR}.duckdb"
 CSV_DIR = "csv_output"
 SQLITE_DB = "irs990_all_tables.sqlite"
 BATCH_SIZE = 50000  # Process this many rows at a time to save memory
@@ -94,7 +96,7 @@ def setup_duckdb_connection():
 def attach_s3_database(con, year: int):
     """Attach S3 DuckDB database"""
     print(f"\nAttaching S3 database for year {year}...")
-    s3_path = f"s3://{S3_BUCKET}/duckdb/EFILE{year}.duckdb"
+    s3_path = f"{S3_BASE_PATH}/EFILE{year}.duckdb"
     dbname = f"EFILE{year}"
 
     try:
