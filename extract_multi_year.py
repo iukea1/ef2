@@ -17,6 +17,11 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 from datetime import datetime
+import logging
+from logging_config import setup_logging, log_performance, LogBlock
+
+# Setup logger
+logger = setup_logging("extract_multi_year", level="INFO")
 
 # Configuration
 S3_BUCKET = "nccs-efile"
@@ -35,16 +40,19 @@ def to_snake_case(text: str) -> str:
     text = re.sub('([a-z0-9])([A-Z])', r'\1_\2', text)
     return text.lower()
 
+@log_performance
 def get_table_list() -> List[str]:
     """Get list of all IRS 990 tables"""
     url = "https://raw.githubusercontent.com/Nonprofit-Open-Data-Collective/irs-efile-master-concordance-file/refs/heads/master/concordance.csv"
+    logger.debug(f"Loading concordance from: {url}")
     try:
         concordance = pd.read_csv(url, encoding='latin1', low_memory=False)
         tables = concordance['rdb_table'].dropna().unique()
         tables = sorted([str(t) for t in tables if t and str(t) != 'nan' and str(t) != ''])
+        logger.info(f"Loaded {len(tables)} tables from concordance")
         return tables
     except Exception as e:
-        print(f"Warning: Could not load concordance: {e}")
+        logger.warning(f"Could not load concordance: {e}. Using fallback tables.")
         # Return core tables as fallback
         return [
             "F9-P00-T00-HEADER",
@@ -56,28 +64,37 @@ def get_table_list() -> List[str]:
 
 def setup_duckdb_s3():
     """Setup DuckDB with S3 support"""
+    logger.debug("Setting up DuckDB with S3 support")
     con = duckdb.connect(':memory:')
     try:
+        logger.debug("Installing httpfs extension")
         con.execute("INSTALL httpfs;")
         con.execute("LOAD httpfs;")
-    except:
+        logger.info("httpfs extension loaded successfully")
+    except Exception as e:
+        logger.debug(f"httpfs install failed: {e}. Trying to load existing...")
         try:
             con.execute("LOAD httpfs;")
-        except:
+            logger.info("httpfs extension loaded from existing installation")
+        except Exception as e2:
+            logger.error(f"Failed to load httpfs: {e2}")
             return None
 
+    logger.debug("Configuring S3 settings")
     con.execute("SET s3_region='us-east-1';")
     con.execute("SET s3_endpoint='s3.amazonaws.com';")
     con.execute("SET s3_access_key_id='';")
     con.execute("SET s3_secret_access_key='';")
+    logger.info("DuckDB S3 setup complete")
 
     return con
 
+@log_performance
 def extract_year_data(year: int, tables: List[str], sample_size: int = None) -> Dict:
     """Extract data for a single year"""
-    print(f"\n{'='*80}")
-    print(f"Processing Year: {year}")
-    print(f"{'='*80}")
+    logger.info(f"{'='*80}")
+    logger.info(f"Processing Year: {year}")
+    logger.info(f"{'='*80}")
 
     results = {
         'year': year,
