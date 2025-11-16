@@ -1,0 +1,36 @@
+csv_multi_year/2020/tmp_f9_p00_t00_header.csv
+#ingore all csv files in csv_multi_year directory
+csv_multi_year/**/*.csv
+#ingore all sqlite files in sqlite_multi_year directory
+sqlite_multi_year/**/*.sqlite
+#ingore all duckdb files in duckdb_multi_year directory
+duckdb_multi_year/**/*.duckdb
+#ingore all json files in json_multi_year directory
+json_multi_year/**/*.json
+#ingore all parquet files in parquet_multi_year directory
+parquet_multi_year/**/*.parquet
+#ingore all feather files in feather_multi_year directory
+feather_multi_year/**/*.feather
+#ingore all log files in log_multi_year directory
+log_multi_year/**/*.log
+#ingore all error files in error_multi_year directory
+error_multi_year/**/*.error
+#ingore all warning files in warning_multi_year directory
+warning_multi_year/**/*.warning
+#ingore all info files in info_multi_year directory
+info_multi_year/**/*.info
+#ingore all debug files in debug_multi_year directory
+debug_multi_year/**/*.debug
+#ingore all trace files in trace_multi_year directory
+trace_multi_year/**/*.trace
+#ingore all pycache files in pycache_multi_year directory
+pycache_multi_year/**/__pycache__
+#ingore all __pycache__ files in __pycache___multi_year directory
+__pycache___multi_year/**/__pycache__
+#ingore all __pycache__ files in __pycache___multi_year directory
+__pycache___multi_year/**/__pycache__
+#ingore all __pycache__ files in __pycache___multi_year directory
+__pycache___multi_year/**/__pycache__
+
+
+
