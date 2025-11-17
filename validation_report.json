@@ -1,18 +1,18 @@
 {
-  "timestamp": "2025-11-15T23:26:34.500843",
+  "timestamp": "2025-11-16T17:15:12.102833",
   "summary": {
-    "total_checks": 157,
-    "passed": 156,
-    "failed": 1,
-    "error_count": 0,
-    "warning_count": 1
+    "total_checks": 79,
+    "passed": 75,
+    "failed": 4,
+    "error_count": 2,
+    "warning_count": 2
   },
   "rules": [
     {
       "category": "Format",
       "rule": "f9_p00_t00_header: EIN format",
       "severity": "ERROR",
-      "passed": 5,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -21,34 +21,7 @@
       "category": "Format",
       "rule": "f9_p08_t00_revenue: EIN format",
       "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Business Logic",
-      "rule": "f9_p01_t00_summary_ez: Tax year range",
-      "severity": "ERROR",
-      "passed": 1,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Business Logic",
-      "rule": "f9_p02_t00_signature: Tax year range",
-      "severity": "ERROR",
-      "passed": 1,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Business Logic",
-      "rule": "f9_p03_t00_mission: Tax year range",
-      "severity": "ERROR",
-      "passed": 1,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -56,6 +29,15 @@
     {
       "category": "Business Logic",
       "rule": "f9_p00_t00_header: Tax year range",
+      "severity": "ERROR",
+      "passed": 1,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Business Logic",
+      "rule": "f9_p01_t00_summary: Tax year range",
       "severity": "ERROR",
       "passed": 1,
       "failed": 0,
@@ -99,100 +81,10 @@
       "details": []
     },
     {
-      "category": "Business Logic",
-      "rule": "f9_p01_t00_summary: Tax year range",
-      "severity": "ERROR",
-      "passed": 1,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p01_t00_summary_ez: objectid not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p01_t00_summary_ez: ein not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p01_t00_summary_ez: tax_year not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p02_t00_signature: objectid not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p02_t00_signature: ein not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p02_t00_signature: tax_year not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p03_t00_mission: objectid not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p03_t00_mission: ein not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p03_t00_mission: tax_year not null",
-      "severity": "ERROR",
-      "passed": 2,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
       "category": "Completeness",
       "rule": "f9_p00_t00_header: objectid not null",
       "severity": "ERROR",
-      "passed": 5,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -201,7 +93,7 @@
       "category": "Completeness",
       "rule": "f9_p00_t00_header: ein not null",
       "severity": "ERROR",
-      "passed": 5,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -210,115 +102,7 @@
       "category": "Completeness",
       "rule": "f9_p00_t00_header: tax_year not null",
       "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p08_t00_revenue: objectid not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p08_t00_revenue: ein not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p08_t00_revenue: tax_year not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p09_t00_expenses: objectid not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p09_t00_expenses: ein not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p09_t00_expenses: tax_year not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p10_t00_balance_sheet: objectid not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p10_t00_balance_sheet: ein not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p10_t00_balance_sheet: tax_year not null",
-      "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p07_t01_compensation: objectid not null",
-      "severity": "ERROR",
-      "passed": 8,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p07_t01_compensation: ein not null",
-      "severity": "ERROR",
-      "passed": 8,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
-    },
-    {
-      "category": "Completeness",
-      "rule": "f9_p07_t01_compensation: tax_year not null",
-      "severity": "ERROR",
-      "passed": 8,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -327,7 +111,7 @@
       "category": "Completeness",
       "rule": "f9_p01_t00_summary: objectid not null",
       "severity": "ERROR",
-      "passed": 5,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -336,7 +120,7 @@
       "category": "Completeness",
       "rule": "f9_p01_t00_summary: ein not null",
       "severity": "ERROR",
-      "passed": 5,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -344,6 +128,114 @@
     {
       "category": "Completeness",
       "rule": "f9_p01_t00_summary: tax_year not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p08_t00_revenue: objectid not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p08_t00_revenue: ein not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p08_t00_revenue: tax_year not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p09_t00_expenses: objectid not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p09_t00_expenses: ein not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p09_t00_expenses: tax_year not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p10_t00_balance_sheet: objectid not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p10_t00_balance_sheet: ein not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p10_t00_balance_sheet: tax_year not null",
+      "severity": "ERROR",
+      "passed": 3,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p07_t01_compensation: objectid not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p07_t01_compensation: ein not null",
+      "severity": "ERROR",
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "details": []
+    },
+    {
+      "category": "Completeness",
+      "rule": "f9_p07_t01_compensation: tax_year not null",
       "severity": "ERROR",
       "passed": 5,
       "failed": 0,
@@ -354,34 +246,40 @@
       "category": "Business Logic",
       "rule": "Revenue: Non-negative values",
       "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
+      "passed": 0,
+      "failed": 1,
+      "pass_rate": "0.0%",
+      "details": [
+        "Table not available: Execution failed on sql '\n            SELECT\n                objectid,\n                ein,\n        "
+      ]
     },
     {
       "category": "Business Logic",
       "rule": "Revenue: Components sum to total",
       "severity": "WARNING",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
+      "passed": 0,
+      "failed": 1,
+      "pass_rate": "0.0%",
+      "details": [
+        "Table not available: Execution failed on sql '\n            SELECT\n                objectid,\n                ein,\n        "
+      ]
     },
     {
       "category": "Consistency",
       "rule": "Summary revenue matches detail revenue",
       "severity": "ERROR",
-      "passed": 5,
-      "failed": 0,
-      "pass_rate": "100.0%",
-      "details": []
+      "passed": 0,
+      "failed": 1,
+      "pass_rate": "0.0%",
+      "details": [
+        "Tables not available: Execution failed on sql '\n            SELECT\n                s.ein,\n                s.f9_p1_total_re"
+      ]
     },
     {
       "category": "Consistency",
       "rule": "Tax year matches across joins",
       "severity": "ERROR",
-      "passed": 5,
+      "passed": 3,
       "failed": 0,
       "pass_rate": "100.0%",
       "details": []
@@ -394,7 +292,7 @@
       "failed": 1,
       "pass_rate": "0.0%",
       "details": [
-        "Insufficient data for outlier detection"
+        "Analysis error: Execution failed on sql '\n        SELECT objectid, ein, f9_p8_total_revenue\n        FROM f9_p08_t00_"
       ]
     },
     {
@@ -409,20 +307,20 @@
   ],
   "categories": {
     "Format": {
-      "passed": 10,
+      "passed": 6,
       "failed": 0
     },
     "Business Logic": {
-      "passed": 19,
-      "failed": 0
+      "passed": 6,
+      "failed": 2
     },
     "Completeness": {
-      "passed": 117,
+      "passed": 60,
       "failed": 0
     },
     "Consistency": {
-      "passed": 10,
-      "failed": 0
+      "passed": 3,
+      "failed": 1
     },
     "Data Quality": {
       "passed": 0,

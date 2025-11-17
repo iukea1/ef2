@@ -1,0 +1,128 @@
+=== EF2 Workflow Demonstration ===
+
+This demo simulates the workflow using sample data.
+
+Step 1: Creating sample IRS 990 data (simulating S3 extraction)...
+
+  - Created sample dataset with 3 rows and 11 columns
+  - Columns: OBJECTID, EIN, TAXPAYER_NAME, TAX_YEAR, FORM_TYPE...
+
+Step 2: Displaying sample data structure...
+
+Sample Data Preview:
+================================================================================
+              OBJECTID       EIN      TAXPAYER_NAME  TAX_YEAR FORM_TYPE F9_P8_CONTRIBUTIONS_GIFTS_GRANTS F9_P8_PROGRAM_SERVICE_REVENUE F9_P8_INVESTMENT_INCOME F9_P8_TOTAL_REVENUE                                                      XPATH                                                                             URL
+OID-202120139349301207 123456789 Sample Nonprofit 1      2021       990                           500000                        300000                   50000              850000         /Return/ReturnData/IRS990/CYContributionsGrantsAmt https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301207_public.xml
+OID-202120139349301208 987654321 Sample Nonprofit 2      2021       990                           250000                        150000                   25000              425000         /Return/ReturnData/IRS990/CYContributionsGrantsAmt https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301208_public.xml
+OID-202120139349301209 555555555 Sample Nonprofit 3      2021     990EZ                           100000                         50000                   10000              160000 /Return/ReturnData/IRS990EZ/ContributionsGiftsGrantsEtcAmt https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301209_public.xml
+================================================================================
+
+Step 3: Saving to CSV: CSV/F9-P08-T00-REVENUE-2021.csv
+  - CSV file created successfully
+  - File size: 829 bytes
+
+Step 4: Creating SQLite database: ef2_data.sqlite
+  - Importing data to table: F9_P08_T00_REVENUE
+  - Successfully created table: F9_P08_T00_REVENUE
+
+Step 5: Verifying SQLite database...
+  - Total rows in table: 3
+  - Total columns: 11
+
+  - Column information:
+    - OBJECTID (TEXT)
+    - EIN (TEXT)
+    - TAXPAYER_NAME (TEXT)
+    - TAX_YEAR (INTEGER)
+    - FORM_TYPE (TEXT)
+    - F9_P8_CONTRIBUTIONS_GIFTS_GRANTS (TEXT)
+    - F9_P8_PROGRAM_SERVICE_REVENUE (TEXT)
+    - F9_P8_INVESTMENT_INCOME (TEXT)
+    - F9_P8_TOTAL_REVENUE (TEXT)
+    - XPATH (TEXT)
+    - URL (TEXT)
+
+Step 6: Running sample SQL queries...
+
+  Query 1: SELECT all records
+              OBJECTID       EIN      TAXPAYER_NAME  TAX_YEAR FORM_TYPE F9_P8_CONTRIBUTIONS_GIFTS_GRANTS F9_P8_PROGRAM_SERVICE_REVENUE F9_P8_INVESTMENT_INCOME F9_P8_TOTAL_REVENUE                                                      XPATH                                                                             URL
+OID-202120139349301207 123456789 Sample Nonprofit 1      2021       990                           500000                        300000                   50000              850000         /Return/ReturnData/IRS990/CYContributionsGrantsAmt https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301207_public.xml
+OID-202120139349301208 987654321 Sample Nonprofit 2      2021       990                           250000                        150000                   25000              425000         /Return/ReturnData/IRS990/CYContributionsGrantsAmt https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301208_public.xml
+OID-202120139349301209 555555555 Sample Nonprofit 3      2021     990EZ                           100000                         50000                   10000              160000 /Return/ReturnData/IRS990EZ/ContributionsGiftsGrantsEtcAmt https://nccs-efile.s3.us-east-1.amazonaws.com/xml/202120139349301209_public.xml
+
+  Query 2: Aggregate by FORM_TYPE
+FORM_TYPE  num_filings  total_revenue
+      990            2        1275000
+    990EZ            1         160000
+
+  Query 3: Filter by revenue threshold
+     TAXPAYER_NAME F9_P8_TOTAL_REVENUE FORM_TYPE
+Sample Nonprofit 1              850000       990
+Sample Nonprofit 2              425000       990
+
+Step 7: Listing all tables in SQLite database...
+  1. F9_P08_T00_REVENUE (3 rows)
+
+Step 8: Creating database indexes for optimization...
+  - Created indexes on EIN, TAX_YEAR, and FORM_TYPE columns
+
+================================================================================
+=== WORKFLOW DEMONSTRATION COMPLETED SUCCESSFULLY ===
+================================================================================
+
+Created files:
+  1. CSV file: CSV/F9-P08-T00-REVENUE-2021.csv
+  2. SQLite database: ef2_data.sqlite
+  3. SQLite table: F9_P08_T00_REVENUE
+
+================================================================================
+How to use the SQLite database:
+================================================================================
+
+Command line:
+  sqlite3 ef2_data.sqlite
+  .tables
+  SELECT * FROM F9_P08_T00_REVENUE LIMIT 10;
+  .exit
+
+Python:
+  import sqlite3
+  import pandas as pd
+  con = sqlite3.connect('ef2_data.sqlite')
+  df = pd.read_sql_query('SELECT * FROM F9_P08_T00_REVENUE', con)
+  print(df)
+
+================================================================================
+Production Workflow (with S3 access):
+================================================================================
+
+When running in an environment with network access to S3, the workflow would:
+
+1. Connect to S3 DuckDB database:
+   - URL: s3://nccs-efile/duckdb/efile_v2_1/EFILE2021.duckdb
+   - Uses DuckDB httpfs extension for S3 access
+   - Anonymous access to public IRS 990 data
+
+2. Query the FLATXML table:
+   - Flattened XML structure with one row per XML node
+   - Filter by RDB_TABLE name (e.g., 'F9-P08-T00-REVENUE')
+   - Extract terminal nodes (actual data values)
+
+3. Transform data:
+   - Pivot from long format to wide format
+   - Join with KEYS table for metadata (EIN, Tax Year, Form Type)
+   - Apply concordance mappings for column names
+
+4. Export to CSV:
+   - Save extracted table to local CSV file
+   - Can handle large datasets (millions of rows)
+
+5. Import to SQLite:
+   - Create normalized tables
+   - Add indexes for query performance
+   - Ready for analysis and reporting
+
+See extract_to_sqlite.py for the full implementation that would run with S3 access.
+
+
+✓ Demo complete!
