@@ -17,7 +17,9 @@ devtools::install_github( 'nonprofit-open-data-collective/ef2' )
 
 ## Usage
 
-The efficiency gains from the package partly come from the pre-processing files. All XML files are converted into something similar to parquet (long) formats with one row per xpath within a document. These are stored in a Duck Database file. 
+The efficiency gains from the package partly come from the pre-processing files. All XML files are converted into something similar to parquet (long) formats with one row per xpath within a document. These are stored in a Duck Database file.
+
+### Extract Specific Tables (R)
 
 The desired tables are then extracted from the database using: 
 
@@ -30,6 +32,63 @@ years <- 2020:2022
 table_names <- c("F9-P08-T00-REVENUE","F9-P09-T00-EXPENSES","F9-P10-T00-BALANCE-SHEET")
 extract_csv_tables( wd=wd, years=years, table_names=table_names )
 ```
+
+### Extract ALL Tables (Python/R)
+
+**NEW**: Extract all 128+ IRS 990 tables automatically with snake_case formatting:
+
+```bash
+# Python version (recommended for memory efficiency)
+python3 extract_all_tables.py
+
+# R version
+Rscript extract_all_tables.R
+```
+
+Features:
+- Extracts all available tables from concordance (128+ tables)
+- Snake_case filenames and column names (`f9_p08_t00_revenue_2021.csv`)
+- Memory optimized - processes one table at a time to prevent RAM exhaustion
+- Outputs to CSV and SQLite database
+- See `EXTRACT_ALL_TABLES.md` for complete documentation
+
+### Multi-Year Analysis
+
+**NEW**: Extract and analyze data across multiple tax years:
+
+```bash
+# Extract multiple years
+python3 extract_multi_year.py --years 2019 2020 2021
+
+# Or use demo mode
+python3 extract_multi_year.py --demo
+```
+
+Features:
+- Multi-year data extraction in one command
+- Automatic data combination across years
+- Longitudinal analysis views (revenue trends, YoY growth)
+- Coverage analysis by year
+- See `ADVANCED_FEATURES.md` for complete guide
+
+### Data Validation
+
+**NEW**: Comprehensive data quality validation:
+
+```bash
+# Validate extracted data
+python3 validate_data.py
+```
+
+Features:
+- 6 validation categories (format, completeness, business logic, etc.)
+- Outlier detection using statistical methods
+- Cross-table consistency checks
+- Temporal pattern validation
+- Detailed JSON report generation
+- See `ADVANCED_FEATURES.md` for complete guide
+
+### S3 Database Access
 
 The processed DuckDB databases are available at:  `https://nccs-efile.s3.dualstack.us-east-1.amazonaws.com/duckdb/efile_v2_1/` + EFILE{YEAR}.duckdb
 

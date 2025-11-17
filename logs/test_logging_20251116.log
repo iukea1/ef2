@@ -1,0 +1,9 @@
+2025-11-16 00:14:42 - test_logging - INFO - setup_logging:92 - Logger initialized: test_logging (level=DEBUG)
+2025-11-16 00:14:42 - test_logging - DEBUG - setup_logging:93 - Log file: logs/test_logging_20251116.log
+2025-11-16 00:14:42 - test_logging - DEBUG - <module>:162 - This is a debug message
+2025-11-16 00:14:42 - test_logging - INFO - <module>:163 - This is an info message
+2025-11-16 00:14:42 - test_logging - WARNING - <module>:164 - This is a warning message
+2025-11-16 00:14:42 - test_logging - ERROR - <module>:165 - This is an error message
+2025-11-16 00:14:43 - test_logging - INFO - __enter__:142 - Starting: Processing data block
+2025-11-16 00:14:43 - test_logging - INFO - <module>:178 - Doing some work...
+2025-11-16 00:14:43 - test_logging - INFO - __exit__:149 - Completed: Processing data block (0.00s)
